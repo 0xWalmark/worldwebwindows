@@ -1,3 +1,5 @@
+const MAX_UNLOCKED_TOKEN = 10;
+
 const canvasReal = document.getElementById("canvasReal");
 const ctxReal = canvasReal.getContext("2d");
 
@@ -26,9 +28,14 @@ function loadBanner(){
   }
 
   if(isNaN(id) || id < 1 || id > 2400){
-    alert("Token ID must be between 1 and 2400");
-    return;
-  }
+  alert("Token ID must be between 1 and 2400");
+  return;
+}
+
+if(id > MAX_UNLOCKED_TOKEN){
+  alert("This token is not unlocked yet.");
+  return;
+}
 
   bannerImage.src = `images/${id}.png`;
   bannerImage.onload = function(){
