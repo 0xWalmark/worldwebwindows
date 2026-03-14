@@ -34,19 +34,33 @@ function loadBanner(){
   }
 }
 
-// Trova quadrati verdi
+// Trova quadrati verdi **precisi** pixel-per-pixel
 function detectGreenSquares(){
   greenSlots = [];
   const data = ctxReal.getImageData(0,0,canvasReal.width,canvasReal.height).data;
+  const visited = Array(canvasReal.height).fill(0).map(()=>Array(canvasReal.width).fill(false));
 
-  for(let y=0;y<canvasReal.height;y+=96){
-    for(let x=0;x<canvasReal.width;x+=96){
+  for(let y=0;y<canvasReal.height;y++){
+    for(let x=0;x<canvasReal.width;x++){
+      if(visited[y][x]) continue;
+
       let idx = (y*canvasReal.width + x)*4;
       if(data[idx]===0 && data[idx+1]===255 && data[idx+2]===30){
-        greenSlots.push({x,y});
+        // angolo superiore sinistro del quadrato verde
+        greenSlots.push({x, y});
+
+        // Segna area 96x96 come visitata
+        for(let dy=0; dy<96; dy++){
+          for(let dx=0; dx<96; dx++){
+            if(y+dy < canvasReal.height && x+dx < canvasReal.width){
+              visited[y+dy][x+dx] = true;
+            }
+          }
+        }
       }
     }
   }
+
   createUploadInputs();
 }
 
@@ -57,15 +71,12 @@ function createUploadInputs(){
   greenSlots.forEach((slot,i)=>{
     let container = document.createElement("div");
 
-    // Anteprima sopra il pulsante
     let preview = document.createElement("div");
     preview.className = "slotPreview";
 
-    // Label Slot #
     let label = document.createElement("p");
     label.innerText = "Slot #" + (i+1);
 
-    // Pulsante Choose File
     let input = document.createElement("input");
     input.type = "file";
 
@@ -75,7 +86,6 @@ function createUploadInputs(){
       reader.onload = function(ev){
         let img = new Image();
         img.onload = function(){
-          // Disegna sul canvas reale dimensione 96x96
           ctxReal.drawImage(img, slot.x, slot.y, 96, 96);
         }
         img.src = ev.target.result;
