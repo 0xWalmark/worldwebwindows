@@ -8,7 +8,7 @@ body{
 }
 
 .logo{
-  width: 320px; /* leggermente più grande */
+  width: 320px;
   margin-top: 30px;
 }
 
@@ -18,14 +18,12 @@ body{
   border-radius: 16px;
 }
 
-/* Label Enter Token ID */
 #tokenLabel {
   font-size: 16px;
   opacity: 0.85;
   margin-bottom:8px;
 }
 
-/* Input Token ID */
 input{
   background:#111;
   border:1px solid #555;
@@ -36,7 +34,6 @@ input{
   border-radius:12px;
 }
 
-/* Pulsanti principali */
 button{
   background:#AC2BB3;
   color:#fff;
@@ -51,7 +48,6 @@ button:hover{
   background:#9e26a0;
 }
 
-/* Wrapper con scroll orizzontale */
 .canvasWrapper {
   width: 100%;
   overflow-x: auto;
@@ -59,12 +55,10 @@ button:hover{
   background: #000;
 }
 
-/* Canvas reale */
 canvas#canvasReal {
   display:block;
 }
 
-/* Upload Area senza sfondo colorato */
 #uploadArea {
   margin-top:30px;
   display:grid;
@@ -73,7 +67,6 @@ canvas#canvasReal {
   justify-items:center;
 }
 
-/* Anteprima grande sopra pulsante */
 #uploadArea .slotPreview {
   width:120px;
   height:120px;
@@ -82,7 +75,6 @@ canvas#canvasReal {
   margin-bottom:8px;
 }
 
-/* Pulsante Choose File */
 #uploadArea input[type=file] {
   width:120px;
   border-radius:12px;
@@ -93,7 +85,6 @@ canvas#canvasReal {
   cursor:pointer;
 }
 
-/* Label sotto anteprima */
 #uploadArea p {
   font-size:12px;
   color:#fff;
