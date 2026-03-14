@@ -1,13 +1,13 @@
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const canvasView = document.getElementById("canvasView");
+const ctxView = canvasView.getContext("2d");
 
-const canvasDownload = document.getElementById("canvasDownload");
-const ctxDownload = canvasDownload.getContext("2d");
+const canvasReal = document.getElementById("canvasReal");
+const ctxReal = canvasReal.getContext("2d");
 
 let greenSlots = [];
 let bannerImage = new Image();
 
-// carica banner (vere dimensioni)
+// Carica banner
 function loadBanner(){
   let id = parseInt(document.getElementById("tokenId").value);
   if(isNaN(id) || id < 1 || id > 2400){
@@ -17,27 +17,27 @@ function loadBanner(){
 
   bannerImage.src = `images/${id}.png`;
   bannerImage.onload = function(){
-    // disegna sul canvas reale
-    ctxDownload.clearRect(0,0,canvasDownload.width,canvasDownload.height);
-    ctxDownload.drawImage(bannerImage,0,0);
+    // Disegna sul canvas reale
+    ctxReal.clearRect(0,0,canvasReal.width,canvasReal.height);
+    ctxReal.drawImage(bannerImage,0,0);
 
-    // aggiorna canvas visuale
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(canvasDownload,0,0);
+    // Aggiorna canvas visuale scalato (50% per esempio)
+    ctxView.clearRect(0,0,canvasView.width,canvasView.height);
+    ctxView.drawImage(canvasReal,0,0,canvasView.width,canvasView.height);
 
     detectGreenSquares();
   }
 }
 
-// trova i quadratini verdi
+// Trova quadrati verdi sul canvas reale
 function detectGreenSquares(){
   greenSlots = [];
-  const data = ctxDownload.getImageData(0,0,canvasDownload.width,canvasDownload.height).data;
+  const data = ctxReal.getImageData(0,0,canvasReal.width,canvasReal.height).data;
 
-  for(let y=0;y<canvasDownload.height;y+=96){
-    for(let x=0;x<canvasDownload.width;x+=96){
-      let idx = (y*canvasDownload.width + x)*4;
-      if(data[idx] === 0 && data[idx+1] === 255 && data[idx+2] === 30){
+  for(let y=0;y<canvasReal.height;y+=96){
+    for(let x=0;x<canvasReal.width;x+=96){
+      let idx = (y*canvasReal.width + x)*4;
+      if(data[idx]===0 && data[idx+1]===255 && data[idx+2]===30){
         greenSlots.push({x,y});
       }
     }
@@ -45,45 +45,40 @@ function detectGreenSquares(){
   createUploadInputs();
 }
 
-// crea grid input + anteprime
+// Crea pulsanti upload + anteprime
 function createUploadInputs(){
   const area = document.getElementById("uploadArea");
   area.innerHTML = "";
 
-  greenSlots.forEach((slot,i) => {
-
+  greenSlots.forEach((slot,i)=>{
     let container = document.createElement("div");
 
-    // anteprima quadratino verde
     let preview = document.createElement("div");
     preview.className = "slotPreview";
-    preview.style.background = "#00FF1E"; 
 
-    // pulsante upload
     let label = document.createElement("p");
     label.innerText = "Slot #" + (i+1);
 
     let input = document.createElement("input");
     input.type = "file";
 
-    input.onchange = (e) => {
+    input.onchange = (e)=>{
       let file = e.target.files[0];
       let reader = new FileReader();
-
       reader.onload = function(ev){
         let img = new Image();
         img.onload = function(){
-          // ridimensiona e disegna sul canvas reale
-          ctxDownload.drawImage(img, slot.x, slot.y, 96, 96);
+          // Disegna sempre sul canvas reale a dimensione 96x96
+          ctxReal.drawImage(img, slot.x, slot.y, 96, 96);
 
-          // aggiorna preview canvas visuale
-          ctx.clearRect(0,0,canvas.width,canvas.height);
-          ctx.drawImage(canvasDownload,0,0);
+          // Aggiorna canvas visuale scalato
+          ctxView.clearRect(0,0,canvasView.width,canvasView.height);
+          ctxView.drawImage(canvasReal,0,0,canvasView.width,canvasView.height);
         }
         img.src = ev.target.result;
       }
       reader.readAsDataURL(file);
-    };
+    }
 
     container.appendChild(preview);
     container.appendChild(label);
@@ -92,10 +87,10 @@ function createUploadInputs(){
   });
 }
 
-// scarica PNG finale
+// Scarica banner finale
 function downloadBanner(){
-  let link = document.createElement("a");
+  const link = document.createElement("a");
   link.download = "worldwebwindows.png";
-  link.href = canvasDownload.toDataURL();
+  link.href = canvasReal.toDataURL();
   link.click();
 }
