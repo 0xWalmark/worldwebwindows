@@ -1,35 +1,39 @@
-const canvasView = document.getElementById("canvasView");
-const ctxView = canvasView.getContext("2d");
-
 const canvasReal = document.getElementById("canvasReal");
 const ctxReal = canvasReal.getContext("2d");
 
 let greenSlots = [];
 let bannerImage = new Image();
 
-// Carica banner
+const uploadArea = document.getElementById("uploadArea");
+const easterEggMsg = document.getElementById("easterEggMsg");
+
 function loadBanner(){
   let id = parseInt(document.getElementById("tokenId").value);
+
+  // Easter Egg token 2401
+  if(id === 2401){
+    easterEggMsg.innerText = "World Web Windows are half the story.\nNext part coming for holders soon.";
+    ctxReal.clearRect(0,0,canvasReal.width,canvasReal.height);
+    uploadArea.innerHTML = "";
+    return;
+  } else {
+    easterEggMsg.innerText = "";
+  }
+
   if(isNaN(id) || id < 1 || id > 2400){
-    alert("Token ID must be between 1 and 2400");
+    alert("Token ID must be between 1 and 2401");
     return;
   }
 
   bannerImage.src = `images/${id}.png`;
   bannerImage.onload = function(){
-    // Disegna sul canvas reale
     ctxReal.clearRect(0,0,canvasReal.width,canvasReal.height);
     ctxReal.drawImage(bannerImage,0,0);
-
-    // Aggiorna canvas visuale scalato (50% per esempio)
-    ctxView.clearRect(0,0,canvasView.width,canvasView.height);
-    ctxView.drawImage(canvasReal,0,0,canvasView.width,canvasView.height);
-
     detectGreenSquares();
   }
 }
 
-// Trova quadrati verdi sul canvas reale
+// Trova quadrati verdi
 function detectGreenSquares(){
   greenSlots = [];
   const data = ctxReal.getImageData(0,0,canvasReal.width,canvasReal.height).data;
@@ -47,18 +51,20 @@ function detectGreenSquares(){
 
 // Crea pulsanti upload + anteprime
 function createUploadInputs(){
-  const area = document.getElementById("uploadArea");
-  area.innerHTML = "";
+  uploadArea.innerHTML = "";
 
   greenSlots.forEach((slot,i)=>{
     let container = document.createElement("div");
 
+    // Anteprima sopra il pulsante
     let preview = document.createElement("div");
     preview.className = "slotPreview";
 
+    // Label Slot #
     let label = document.createElement("p");
     label.innerText = "Slot #" + (i+1);
 
+    // Pulsante Choose File
     let input = document.createElement("input");
     input.type = "file";
 
@@ -68,12 +74,7 @@ function createUploadInputs(){
       reader.onload = function(ev){
         let img = new Image();
         img.onload = function(){
-          // Disegna sempre sul canvas reale a dimensione 96x96
           ctxReal.drawImage(img, slot.x, slot.y, 96, 96);
-
-          // Aggiorna canvas visuale scalato
-          ctxView.clearRect(0,0,canvasView.width,canvasView.height);
-          ctxView.drawImage(canvasReal,0,0,canvasView.width,canvasView.height);
         }
         img.src = ev.target.result;
       }
@@ -83,11 +84,11 @@ function createUploadInputs(){
     container.appendChild(preview);
     container.appendChild(label);
     container.appendChild(input);
-    area.appendChild(container);
+    uploadArea.appendChild(container);
   });
 }
 
-// Scarica banner finale
+// Download banner
 function downloadBanner(){
   const link = document.createElement("a");
   link.download = "worldwebwindows.png";
