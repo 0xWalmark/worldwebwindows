@@ -7,6 +7,7 @@ let bannerImage = new Image();
 const uploadArea = document.getElementById("uploadArea");
 const easterEggMsg = document.getElementById("easterEggMsg");
 
+// Carica banner
 function loadBanner(){
   let id = parseInt(document.getElementById("tokenId").value);
 
@@ -21,7 +22,7 @@ function loadBanner(){
   }
 
   if(isNaN(id) || id < 1 || id > 2400){
-    alert("Token ID must be between 1 and 2401");
+    alert("Token ID must be between 1 and 2400");
     return;
   }
 
@@ -74,6 +75,7 @@ function createUploadInputs(){
       reader.onload = function(ev){
         let img = new Image();
         img.onload = function(){
+          // Disegna sul canvas reale dimensione 96x96
           ctxReal.drawImage(img, slot.x, slot.y, 96, 96);
         }
         img.src = ev.target.result;
