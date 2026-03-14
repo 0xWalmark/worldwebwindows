@@ -123,6 +123,12 @@ function createUploadInputs(){
       reader.onload = function(ev){
         let img = new Image();
         img.onload = function(){
+          // Clipping: tutto disegnato rimane nel rettangolo dello slot
+          ctxReal.save();
+          ctxReal.beginPath();
+          ctxReal.rect(slot.x, slot.y, slot.width, slot.height);
+          ctxReal.clip();
+
           // COVER SCALING: riempi slot senza deformare
           const slotRatio = slot.width / slot.height;
           const imgRatio = img.width / img.height;
@@ -130,11 +136,9 @@ function createUploadInputs(){
           let drawWidth, drawHeight, offsetX, offsetY;
 
           if(imgRatio > slotRatio){
-            // immagine più larga → scala altezza
             drawHeight = slot.height;
             drawWidth = img.width * (slot.height / img.height);
           } else {
-            // immagine più alta → scala larghezza
             drawWidth = slot.width;
             drawHeight = img.height * (slot.width / img.width);
           }
@@ -143,6 +147,7 @@ function createUploadInputs(){
           offsetY = slot.y - (drawHeight - slot.height)/2;
 
           ctxReal.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+          ctxReal.restore();
           updateCanvasView();
         }
         img.src = ev.target.result;
