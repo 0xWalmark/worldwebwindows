@@ -3,33 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <title>WorldWebWindows</title>
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
-<header>
-<img src="logo.png" class="logo">
-</header>
+<header><img src="logo.png" class="logo"></header>
 
 <div class="container">
-<h2>Enter Token ID</h2>
+  <h2>Enter Token ID</h2>
+  <input type="number" id="tokenId" min="1" max="2400" placeholder="1 - 2400">
+  <button onclick="loadBanner()">Load Banner</button>
 
-<input type="number" id="tokenId" min="1" max="2400" placeholder="1 - 2400">
-<button onclick="loadBanner()">Load Banner</button>
+  <br><br>
 
-<br><br>
+  <!-- Canvas visuale -->
+  <canvas id="canvas" width="1992" height="664"></canvas>
+  <!-- Canvas reale invisibile per il download -->
+  <canvas id="canvasDownload" width="1992" height="664" style="display:none;"></canvas>
 
-<!-- Canvas visualizzato -->
-<canvas id="canvas" width="1992" height="664"></canvas>
-<!-- Canvas reale per disegno e download -->
-<canvas id="canvasDownload" width="1992" height="664" style="display:none;"></canvas>
+  <div id="uploadArea"></div>
 
-<div id="uploadArea"></div>
-<br>
-
-<button onclick="downloadBanner()">Download Banner</button>
+  <br>
+  <button onclick="downloadBanner()">Download Banner</button>
 </div>
 
-<script src="script.js?v=4"></script>
+<script src="script.js?v=5"></script>
 </body>
 </html>
