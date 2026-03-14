@@ -48,7 +48,7 @@ function updateCanvasView(){
   ctxView.drawImage(canvasReal,0,0,canvasView.width,canvasView.height);
 }
 
-// Rileva quadrati verdi di qualsiasi altezza (96 o 100)
+// Rileva quadrati verdi di qualsiasi altezza
 function detectGreenSquares(){
   greenSlots = [];
   const data = ctxReal.getImageData(0,0,canvasReal.width,canvasReal.height).data;
@@ -59,7 +59,7 @@ function detectGreenSquares(){
       if(visited[y][x]) continue;
       const idx = (y*canvasReal.width + x)*4;
       if(data[idx]===0 && data[idx+1]===255 && data[idx+2]===30){ // pixel verde
-        // Determina la larghezza e altezza del quadrato
+        // Determina larghezza e altezza del quadrato
         let width = 0;
         while(x+width < canvasReal.width){
           const widx = (y*canvasReal.width + (x+width))*4;
@@ -80,7 +80,6 @@ function detectGreenSquares(){
           else break;
         }
 
-        // Aggiungi slot
         greenSlots.push({x, y, width, height});
 
         // Segna come visitati
@@ -124,7 +123,26 @@ function createUploadInputs(){
       reader.onload = function(ev){
         let img = new Image();
         img.onload = function(){
-          ctxReal.drawImage(img, slot.x, slot.y, slot.width, slot.height);
+          // COVER SCALING: riempi slot senza deformare
+          const slotRatio = slot.width / slot.height;
+          const imgRatio = img.width / img.height;
+
+          let drawWidth, drawHeight, offsetX, offsetY;
+
+          if(imgRatio > slotRatio){
+            // immagine più larga → scala altezza
+            drawHeight = slot.height;
+            drawWidth = img.width * (slot.height / img.height);
+          } else {
+            // immagine più alta → scala larghezza
+            drawWidth = slot.width;
+            drawHeight = img.height * (slot.width / img.width);
+          }
+
+          offsetX = slot.x - (drawWidth - slot.width)/2;
+          offsetY = slot.y - (drawHeight - slot.height)/2;
+
+          ctxReal.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
           updateCanvasView();
         }
         img.src = ev.target.result;
