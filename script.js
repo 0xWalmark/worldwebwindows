@@ -39,7 +39,7 @@ function loadBanner(){
   }
 }
 
-// Aggiorna canvas visuale scalato senza scroll
+// Aggiorna canvas visuale scalato
 function updateCanvasView(){
   const scale = Math.min(canvasView.parentElement.clientWidth / canvasReal.width, 1);
   canvasView.width = canvasReal.width * scale;
@@ -48,34 +48,55 @@ function updateCanvasView(){
   ctxView.drawImage(canvasReal,0,0,canvasView.width,canvasView.height);
 }
 
-// Trova quadrati verdi in ordine corretto (x crescente, y crescente)
+// Rileva quadrati verdi di qualsiasi altezza (96 o 100)
 function detectGreenSquares(){
   greenSlots = [];
   const data = ctxReal.getImageData(0,0,canvasReal.width,canvasReal.height).data;
   const visited = Array(canvasReal.height).fill(0).map(()=>Array(canvasReal.width).fill(false));
 
-  for(let y=0;y<canvasReal.height;y++){
-    for(let x=0;x<canvasReal.width;x++){
+  for(let y=0; y<canvasReal.height; y++){
+    for(let x=0; x<canvasReal.width; x++){
       if(visited[y][x]) continue;
-      let idx = (y*canvasReal.width + x)*4;
-      if(data[idx]===0 && data[idx+1]===255 && data[idx+2]===30){
-        greenSlots.push({x,y});
-        // Segna area 96x96 come visitata
-        for(let dy=0; dy<96; dy++){
-          for(let dx=0; dx<96; dx++){
-            if(y+dy<canvasReal.height && x+dx<canvasReal.width){
-              visited[y+dy][x+dx] = true;
+      const idx = (y*canvasReal.width + x)*4;
+      if(data[idx]===0 && data[idx+1]===255 && data[idx+2]===30){ // pixel verde
+        // Determina la larghezza e altezza del quadrato
+        let width = 0;
+        while(x+width < canvasReal.width){
+          const widx = (y*canvasReal.width + (x+width))*4;
+          if(data[widx]===0 && data[widx+1]===255 && data[widx+2]===30) width++;
+          else break;
+        }
+        let height = 0;
+        while(y+height < canvasReal.height){
+          let fullRowGreen = true;
+          for(let wx=0; wx<width; wx++){
+            const hidx = ((y+height)*canvasReal.width + (x+wx))*4;
+            if(!(data[hidx]===0 && data[hidx+1]===255 && data[hidx+2]===30)){
+              fullRowGreen = false;
+              break;
             }
+          }
+          if(fullRowGreen) height++;
+          else break;
+        }
+
+        // Aggiungi slot
+        greenSlots.push({x, y, width, height});
+
+        // Segna come visitati
+        for(let dy=0; dy<height; dy++){
+          for(let dx=0; dx<width; dx++){
+            visited[y+dy][x+dx] = true;
           }
         }
       }
     }
   }
 
-  // Ordina per x crescente, poi y crescente
+  // Ordina slot per x crescente, poi y crescente
   greenSlots.sort((a,b)=>{
-    if(a.y !== b.y) return a.y - b.y;
-    return a.x - b.x;
+    if(a.x !== b.x) return a.x - b.x;
+    return a.y - b.y;
   });
 
   createUploadInputs();
@@ -103,7 +124,7 @@ function createUploadInputs(){
       reader.onload = function(ev){
         let img = new Image();
         img.onload = function(){
-          ctxReal.drawImage(img, slot.x, slot.y, 96, 96);
+          ctxReal.drawImage(img, slot.x, slot.y, slot.width, slot.height);
           updateCanvasView();
         }
         img.src = ev.target.result;
