@@ -8,14 +8,27 @@ body{
 }
 
 .logo{
-  width: 260px;
+  width: 320px; /* leggermente più grande */
   margin-top: 30px;
 }
 
-.container { margin-top:20px; }
+.container {
+  margin-top: 20px;
+  padding: 20px;
+  background: #3A006E; /* viola scuro dietro input e pulsanti */
+  border-radius: 16px;
+}
 
+/* Label Enter Token ID */
+#tokenLabel {
+  font-size: 16px;
+  opacity: 0.85;
+  margin-bottom:8px;
+}
+
+/* Input Token ID */
 input{
-  background:#111;
+  background:#3A006E;
   border:1px solid #555;
   color:#fff;
   padding:12px;
@@ -24,6 +37,7 @@ input{
   border-radius:12px;
 }
 
+/* Pulsanti principali */
 button{
   background:#AC2BB3;
   color:#fff;
@@ -38,40 +52,55 @@ button:hover{
   background:#9e26a0;
 }
 
-canvas#canvasView {
-  width:100%;
-  height:auto;
-  display:block;
-  margin:20px auto;
+/* Wrapper con scroll orizzontale */
+.canvasWrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: #000; /* opzionale sfondo sotto canvas */
+  border:1px solid #555;
 }
 
+/* Canvas reale */
+canvas#canvasReal {
+  display:block;
+}
+
+/* Upload Area */
 #uploadArea {
   margin-top:30px;
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
   gap:15px;
   justify-items:center;
+  background: #3A006E;
+  padding:15px;
+  border-radius:12px;
 }
 
+/* Anteprima grande sopra pulsante */
 #uploadArea .slotPreview {
-  width:96px;
-  height:96px;
+  width:120px;
+  height:120px;
   border:1px solid #777;
-  background:#00FF1E; /* colore quadrato verde */
-  margin-bottom:6px;
+  background:#00FF1E;
+  margin-bottom:8px;
 }
 
-#uploadArea input {
-  width:100px;
-  border-radius:8px;
+/* Pulsante Choose File */
+#uploadArea input[type=file] {
+  width:120px;
+  border-radius:12px;
   border:1px solid #555;
-  background:#111;
+  background:#AC2BB3;
   color:#fff;
-  padding:4px;
+  padding:6px;
+  cursor:pointer;
 }
+
+/* Label sotto anteprima */
 #uploadArea p {
   font-size:12px;
   color:#fff;
-  margin:0;
+  margin:4px 0 0 0;
   text-align:center;
 }
