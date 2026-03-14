@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>WorldWebWindows</title>
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
-<header><img src="logo.png" class="logo"></header>
+<header>
+<img src="logo.png" class="logo">
+</header>
 
 <div class="container">
   <h2>Enter Token ID</h2>
@@ -16,10 +18,10 @@
 
   <br><br>
 
-  <!-- Canvas visuale -->
-  <canvas id="canvas" width="1992" height="664"></canvas>
-  <!-- Canvas reale invisibile per il download -->
-  <canvas id="canvasDownload" width="1992" height="664" style="display:none;"></canvas>
+  <!-- Canvas visuale (per anteprima) -->
+  <canvas id="canvasView" width="996" height="332"></canvas>
+  <!-- Canvas reale invisibile (per disegno e download) -->
+  <canvas id="canvasReal" width="1992" height="664" style="display:none;"></canvas>
 
   <div id="uploadArea"></div>
 
@@ -27,6 +29,6 @@
   <button onclick="downloadBanner()">Download Banner</button>
 </div>
 
-<script src="script.js?v=5"></script>
+<script src="script.js?v=6"></script>
 </body>
 </html>
