@@ -46,15 +46,12 @@ button:hover{
   background:#444;
 }
 
-/* Canvas responsive */
-canvas {
-  margin-top:30px;
-  border:1px solid #555;
-  max-width:100%;
-  height:auto;
-  display:block;
-  margin-left:auto;
-  margin-right:auto;
+/* Canvas visualizzato responsivo */
+canvas#canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 /* Griglia pulsanti upload */
@@ -75,40 +72,4 @@ canvas {
   color:#ccc;
   margin:0;
   text-align:center;
-}  padding:12px 24px;
-  margin:10px;
-  font-size:16px;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-button:hover{
-  background:#444;
-}
-
-canvas {
-  margin-top: 30px;
-  border: 1px solid #555;
-  width: 100%;  /* ridimensiona per schermo */
-  height: auto; /* mantiene proporzioni */
-}
-
-/* Griglia per pulsanti upload */
-#uploadArea {
-  margin-top: 30px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-  justify-items: center;
-}
-
-#uploadArea input {
-  width: 100px;
-}
-
-#uploadArea p {
-  font-size: 12px;
-  color: #ccc;
-  margin: 0;
-  text-align: center;
 }
