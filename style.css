@@ -1,7 +1,7 @@
 /* Tema nero e grigio/bianco */
 body{
   background:#000;
-  color:#ffffff;
+  color:#fff;
   font-family:Arial, Helvetica, sans-serif;
   text-align:center;
   margin:0;
@@ -15,10 +15,11 @@ body{
 
 .container{
   margin-top:20px;
+  max-width: 100%;
 }
 
 h2{
-  color:#cccccc;
+  color:#ccc;
 }
 
 input{
@@ -35,6 +36,46 @@ button{
   color:#fff;
   border:1px solid #666;
   padding:12px 24px;
+  margin:10px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#444;
+}
+
+/* Canvas responsive */
+canvas {
+  margin-top:30px;
+  border:1px solid #555;
+  max-width:100%;
+  height:auto;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* Griglia pulsanti upload */
+#uploadArea {
+  margin-top:30px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap:10px;
+  justify-items:center;
+}
+
+#uploadArea input {
+  width:100px;
+}
+
+#uploadArea p {
+  font-size:12px;
+  color:#ccc;
+  margin:0;
+  text-align:center;
+}  padding:12px 24px;
   margin:10px;
   font-size:16px;
   cursor:pointer;
