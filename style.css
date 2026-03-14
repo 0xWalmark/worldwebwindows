@@ -1,0 +1,52 @@
+body{
+background:#000;
+color:#ffffff;
+font-family:Arial, Helvetica, sans-serif;
+text-align:center;
+margin:0;
+padding:0;
+}
+
+.logo{
+width:260px;
+margin-top:30px;
+}
+
+.container{
+margin-top:20px;
+}
+
+h2{
+color:#cccccc;
+}
+
+input{
+background:#111;
+border:1px solid #555;
+color:#fff;
+padding:12px;
+font-size:16px;
+width:160px;
+}
+
+button{
+background:#222;
+color:#fff;
+border:1px solid #666;
+padding:12px 24px;
+margin:10px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover
+
+canvas{
+margin-top:30px;
+border:1px solid #555;
+}
+
+#uploadArea{
+margin-top:30px;
+}
