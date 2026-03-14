@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>WorldWebWindows</title>
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 
@@ -13,7 +13,7 @@
 
 <div class="container">
   <h2 id="tokenLabel">Enter Token ID</h2>
-  <input type="number" id="tokenId" min="1" max="2401" placeholder="1 - 2401">
+  <input type="number" id="tokenId" min="1" max="2400" placeholder="1 - 2400">
   <button onclick="loadBanner()">Load Banner</button>
 
   <!-- Easter Egg message sotto input -->
@@ -21,10 +21,10 @@
 
   <br><br>
 
-  <!-- Canvas reale con scroll orizzontale -->
-  <div class="canvasWrapper">
-    <canvas id="canvasReal" width="1992" height="664"></canvas>
-  </div>
+  <!-- Canvas visivo ridotto per adattarsi allo schermo -->
+  <canvas id="canvasView"></canvas>
+  <!-- Canvas reale invisibile per download -->
+  <canvas id="canvasReal" width="1992" height="664" style="display:none;"></canvas>
 
   <div id="uploadArea"></div>
 
@@ -32,6 +32,6 @@
   <button onclick="downloadBanner()">Download Banner</button>
 </div>
 
-<script src="script.js?v=9"></script>
+<script src="script.js?v=10"></script>
 </body>
 </html>
