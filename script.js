@@ -23,7 +23,7 @@ detectGreenSquares();
 
 };
 
-img.src = "banners/"+id+".png";
+img.src = "images/"+id+".png";
 
 }
 
