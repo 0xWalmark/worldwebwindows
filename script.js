@@ -8,7 +8,7 @@ let greenSlots = [];
 let bannerImage = new Image();
 let currentToken = 0;
 
-// carica banner selezionato
+// Carica banner selezionato
 function loadBanner(){
   let id = parseInt(document.getElementById("tokenId").value);
   if(isNaN(id) || id < 1 || id > 2400){
@@ -19,28 +19,28 @@ function loadBanner(){
 
   bannerImage = new Image();
   bannerImage.onload = function(){
-    // canvas visualizzato
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(bannerImage,0,0);
-
-    // canvas download (reale)
+    // Disegna su canvas reale
     ctxDownload.clearRect(0,0,canvasDownload.width,canvasDownload.height);
     ctxDownload.drawImage(bannerImage,0,0);
+
+    // Aggiorna canvas visualizzato (ridimensionato con CSS)
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(canvasDownload,0,0);
 
     detectGreenSquares();
   };
   bannerImage.src = "images/"+id+".png";
 }
 
-// trova quadrati verdi 96x96
+// Rileva quadrati verdi
 function detectGreenSquares(){
   greenSlots = [];
-  let imageData = ctxDownload.getImageData(0,0,canvas.width,canvas.height);
+  let imageData = ctxDownload.getImageData(0,0,canvasDownload.width,canvasDownload.height);
   let data = imageData.data;
 
-  for(let y=0;y<canvas.height;y+=96){
-    for(let x=0;x<canvas.width;x+=96){
-      let index = (y*canvas.width + x) * 4;
+  for(let y=0;y<canvasDownload.height;y+=96){
+    for(let x=0;x<canvasDownload.width;x+=96){
+      let index = (y*canvasDownload.width + x) * 4;
       let r = data[index];
       let g = data[index+1];
       let b = data[index+2];
@@ -53,7 +53,7 @@ function detectGreenSquares(){
   createUploadInputs();
 }
 
-// crea pulsanti upload in griglia
+// Crea pulsanti upload in griglia
 function createUploadInputs() {
   let area = document.getElementById("uploadArea");
   area.innerHTML = "";
@@ -73,10 +73,11 @@ function createUploadInputs() {
       reader.onload=function(ev){
         let img = new Image();
         img.onload = function(){
-          // disegna sia su canvas visualizzato che download
-          ctx.clearRect(slot.x, slot.y, 96, 96);
-          ctx.drawImage(img, slot.x, slot.y, 96, 96);
+          // Disegna sul canvas reale
           ctxDownload.drawImage(img, slot.x, slot.y, 96, 96);
+          // Aggiorna canvas visualizzato scalato
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+          ctx.drawImage(canvasDownload,0,0);
         };
         img.src = ev.target.result;
       };
@@ -89,7 +90,7 @@ function createUploadInputs() {
   });
 }
 
-// scarica banner finale
+// Scarica banner finale
 function downloadBanner(){
   let link = document.createElement("a");
   link.download = "worldwebwindows.png";
