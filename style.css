@@ -15,7 +15,6 @@ body{
 .container {
   margin-top: 20px;
   padding: 20px;
-  background: #3A006E; /* viola scuro dietro input e pulsanti */
   border-radius: 16px;
 }
 
@@ -28,7 +27,7 @@ body{
 
 /* Input Token ID */
 input{
-  background:#3A006E;
+  background:#111;
   border:1px solid #555;
   color:#fff;
   padding:12px;
@@ -56,8 +55,8 @@ button:hover{
 .canvasWrapper {
   width: 100%;
   overflow-x: auto;
-  background: #000; /* opzionale sfondo sotto canvas */
   border:1px solid #555;
+  background: #000;
 }
 
 /* Canvas reale */
@@ -65,16 +64,13 @@ canvas#canvasReal {
   display:block;
 }
 
-/* Upload Area */
+/* Upload Area senza sfondo colorato */
 #uploadArea {
   margin-top:30px;
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
   gap:15px;
   justify-items:center;
-  background: #3A006E;
-  padding:15px;
-  border-radius:12px;
 }
 
 /* Anteprima grande sopra pulsante */
