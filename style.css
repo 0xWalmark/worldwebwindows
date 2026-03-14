@@ -48,17 +48,15 @@ button:hover{
   background:#9e26a0;
 }
 
-.canvasWrapper {
+/* Canvas visivo scalato */
+#canvasView{
   width: 100%;
-  overflow-x: auto;
+  height: auto;
+  margin: 20px 0;
   border:1px solid #555;
-  background: #000;
 }
 
-canvas#canvasReal {
-  display:block;
-}
-
+/* Upload Area */
 #uploadArea {
   margin-top:30px;
   display:grid;
