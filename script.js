@@ -1,4 +1,4 @@
-const MAX_UNLOCKED_TOKEN = 26;
+const MAX_UNLOCKED_TOKEN = 28;
 
 const canvasReal = document.getElementById("canvasReal");
 const ctxReal = canvasReal.getContext("2d");
