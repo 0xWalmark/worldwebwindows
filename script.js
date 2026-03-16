@@ -33,7 +33,7 @@ function loadBanner(){
 }
 
 if(id > MAX_UNLOCKED_TOKEN){
-  alert("This token is not unlocked yet.");
+  alert("This token is not minted yet.");
   return;
 }
 
