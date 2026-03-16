@@ -1,4 +1,4 @@
-const MAX_UNLOCKED_TOKEN = 40;
+const MAX_UNLOCKED_TOKEN = 41;
 
 const canvasReal = document.getElementById("canvasReal");
 const ctxReal = canvasReal.getContext("2d");
@@ -33,7 +33,7 @@ function loadBanner(){
 }
 
 if(id > MAX_UNLOCKED_TOKEN){
-  alert("This token is not unlocked yet.");
+  alert("This token is not minted yet.");
   return;
 }
 
